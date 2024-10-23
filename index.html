@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papelaria Fofa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #fdf5e6;
+            color: #333;
+        }
+
+        header {
+            background-color: #f4d1d1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        header h1 {
+            color: #666;
+        }
+
+        .icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .sidebar {
+            background-color: #f1e5f5;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            padding-top: 100px;
+            transition: transform 0.3s ease;
+            transform: translateX(0); 
+        }
+
+        .sidebar.closed {
+            transform: translateX(-220px); 
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 1rem;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #666;
+        }
+
+        main {
+            margin-left: 220px;
+            padding: 1rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.shifted {
+            margin-left: 0;
+        }
+
+        .product {
+            display: inline-block;
+            width: 200px;
+            margin: 1rem;
+            text-align: center;
+        }
+
+        .product img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        button.add-to-cart {
+            background-color: #f7b6b6;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+
+        button.add-to-cart:hover {
+            background-color: #f9a3a3;
+        }
+
+        /* Modal de carrinho */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: red;
+            cursor: pointer;
+        }
+
+        /* Modal de perfil */
+        #profile-modal .modal-content {
+            width: 400px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            main {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Papelaria</h1>
+        <div class="icons">
+            <i class="fas fa-bars" id="toggle-sidebar"></i> 
+            <i class="fas fa-user" id="perfil"></i>
+            <i class="fas fa-shopping-cart" id="carrinho"></i>
+        </div>
+    </header>
+
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#mochilas">Mochilas</a></li>
+            <li><a href="#estojos">Estojos</a></li>
+            <li><a href="#cadernos">Cadernos</a></li>
+            <li><a href="#canetas">Canetas</a></li>
+        </ul>
+    </nav>
+
+    <!-- Área Principal com Produtos -->
+    <main id="main-content">
+        <section id="mochilas">
+            <h2>Mochilas</h2>
+            <div class="product">
+                <img src="https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/abe3a78ccfe34bacb6d0ad5600ee3f3a_9366/Mochila_Adicolor_Preto_H35596_01_standard.jpg" alt="Mochila ">
+                <p>Mochila  - R$ 159,00</p>
+                <button class="add-to-cart" data-produto="Mochila" data-preco="120">Adicionar ao Carrinho</button>
+            </div>
+        </section>
+
+        <section id="estojos">
+            <h2>Estojos</h2>
+            <div class="product">
+                <img src="https://down-br.img.susercontent.com/file/br-11134207-7r98o-lp9zktlxmh0y3c" alt="Estojo ">
+                <p>Estojo  - R$ 25,00</p>
+                <button class="add-to-cart" data-produto="Estojo " data-preco="30">Adicionar ao Carrinho</button>
+            </div>
+        </section>
+
+        <section id="cadernos">
+            <h2>Cadernos</h2>
+            <div class="product">
+                <img src="https://http2.mlstatic.com/D_NQ_NP_698331-MLB54454180672_032023-O.webp" alt="Caderno">
+                <p>Caderno - R$ 70,00</p>
+                <button class="add-to-cart" data-produto="Caderno" data-preco="20">Adicionar ao Carrinho</button>
+            </div>
+        </section>
+
+        <section id="canetas">
+            <h2>Canetas</h2>
+            <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyVjImPkG_VVfGOKljGTSYQ_RgW-NUoWVtOA&s" alt="Caneta ">
+                <p>Caneta  - R$ 34,00</p>
+                <button class="add-to-cart" data-produto="Caneta " data-preco="5">Adicionar ao Carrinho</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Papelaria </p>
+    </footer>
+
+    <!-- Modal de Carrinho -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Carrinho</h2>
+            <ul id="cart-items"></ul>
+            <p>Total: R$ <span id="cart-total">0</span></p>
+            <button id="checkout">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Modal de Perfil -->
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Perfil do Usuário</h2>
+            <form id="profile-form">
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome"><br><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br><br>
+                <label for="endereco">Endereço:</label><br>
+                <input type="text" id="endereco" name="endereco"><br><br>
+                <button type="submit">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let carrinho = [];
+        let total = 0;
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const produto = this.getAttribute('data-produto');
+                const preco = parseFloat(this.getAttribute('data-preco'));
+                carrinho.push({ produto, preco });
+                total += preco;
+                atualizarCarrinho();
+            });
+        });
+
+        function atualizarCarrinho() {
+            const listaCarrinho = document.getElementById('cart-items');
+            listaCarrinho.innerHTML = '';
+            carrinho.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.produto} - R$ ${item.preco.toFixed(2)}`;
+                listaCarrinho.appendChild(li);
+            });
+            document.getElementById('cart-total').textContent = total.toFixed(2);
+        }
+
+        const carrinhoIcon = document.getElementById('carrinho');
+        const modal = document.getElementById('cart-modal');
+        const span = document.querySelector('.close');
+
+        carrinhoIcon.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        span.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        document.getElementById('checkout').addEventListener('click', () => {
+            alert('Compra finalizada!');
+            carrinho = [];
+            total = 0;
+            atualizarCarrinho();
+            modal.style.display = 'none';
+        });
+
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleSidebar = document.getElementById('toggle-sidebar');
+
+        toggleSidebar.addEventListener('click', () => {
+            sidebar.classList.toggle('closed');
+            mainContent.classList.toggle('shifted');
+        });
+
+        // Perfil
+        const perfilIcon = document.getElementById('perfil');
+        const profileModal = document.getElementById('profile-modal');
+
+        perfilIcon.addEventListener('click', () => {
+            profileModal.style.display = 'block';
+        });
+
+        profileModal.querySelector('.close').addEventListener('click', () => {
+            profileModal.style.display = 'none';
+        });
+
+        document.getElementById('profile-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            const endereco = document.getElementById('endereco').value;
+            alert(`Perfil Atualizado!\nNome: ${nome}\nEmail: ${email}\nEndereço: ${endereco}`);
+            profileModal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
